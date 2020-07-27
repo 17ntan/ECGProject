@@ -1,6 +1,7 @@
 import numpy as np
 from kymatio.numpy import Scattering1D
 import matplotlib.pyplot as plt
+from sklearn import preprocessing
 
 def wavelet_scattering(x, plot_coeffs=False):
 	"""
@@ -41,4 +42,20 @@ def wavelet_scattering(x, plot_coeffs=False):
 		plt.title('Second-order scattering')
 		plt.show()
 
-	return [order0, order1, order2]
+	return [Sx, order0, order1, order2]
+
+def process_wavelet_coeffs(Sx):
+	"""
+	Standardize and shift scattering coefficients. Return dissimilarity of each segment.
+
+	Sx: scattering coefficients, list of numpy arrays
+	Output: S_hat: processed scattering coefficients, list of numpy arrays
+	"""
+	# remove bias introduced by the varying range of the scattering coefficients
+	S_standard = preprocessing.scale(Sx)
+	# shift data to origin
+	S_hat = S_standard
+	# dissimilarity
+	d = np.linalg.norm(S_hat, axis=1)
+	# d1 = d.reshape((d.shape[0],1))
+	return d
