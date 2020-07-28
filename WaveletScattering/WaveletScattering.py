@@ -15,8 +15,8 @@ def wavelet_scattering(x, plot_coeffs=False):
 	x = x / np.max(np.abs(x))
 
 	T = x.shape[-1]
-	J = 6
-	Q = 16
+	J = 8 # the largest filter will be concentrated in a time interval of size 2**J.
+	Q = 128 # the number of wavelets per octave in the first-order filter bank. The larger the value, the narrower these filters are in the frequency domain and the wider they are in the time domain
 	scattering = Scattering1D(J, T, Q)
 
 	Sx = scattering(x)

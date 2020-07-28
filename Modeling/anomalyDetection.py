@@ -2,15 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wfdb
 
-def anomaly_detection(record, annotation, dissimilarity, alpha=0.6, plot=False):
+def anomaly_detection(record, annotation, dissimilarity, alpha=3, plot=False):
     dissimilarity = dissimilarity[1:] # dissimilarity of first beat is super large(1495.7, others:4 to 17?)
     mean, std = np.mean(dissimilarity), np.std(dissimilarity)
     threshold = mean + alpha * std
-    #print("mean:", mean, "std:", std, "threshold:", threshold)
+    print("mean:", mean, "std:", std, "threshold:", threshold)
 
     # anomaly determined by thresholding
     predict_anomaly = np.where(dissimilarity > threshold)
-    #print("predicted label index:", predict_anomaly)
+    print("predicted label index:", len(predict_anomaly[0]))
 
     if plot:
         wfdb.plot_wfdb(record=record, annotation=annotation, title='Record 100 from MIT-BIH Arrhythmia Database')
