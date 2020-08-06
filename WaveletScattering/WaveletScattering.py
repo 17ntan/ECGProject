@@ -73,9 +73,9 @@ def process_wavelet_coeffs(Sx):
 def process_wavelet_coeffs_segments(Sx_lst):
 	"""
 	Input: list of Sx (one for each segment)
-	Output: list of S_hat
+	Output: list of dissimilarities (one for each segment)
 	"""
-	S_hat_lst = []
+	d_lst = []
 	for Sx in Sx_lst:
-		S_hat_lst.append(process_wavelet_coeffs(Sx))
-	return S_hat_lst
+		d_lst.append(process_wavelet_coeffs(Sx))
+	return d_lst
