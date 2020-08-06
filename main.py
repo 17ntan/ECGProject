@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join('LoadData')))
 sys.path.append(os.path.abspath(os.path.join('WaveletScattering')))
 sys.path.append(os.path.abspath(os.path.join('Modeling')))
 from ECGData import ECGData
-from WaveletScattering import wavelet_scattering, process_wavelet_coeffs
+from WaveletScattering import wavelet_scattering_segments, process_wavelet_coeffs_segments
 from anomalyDetection import anomaly_detection, test_thresh
 
 # # load data (Record 100)
