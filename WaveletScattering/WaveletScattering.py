@@ -15,8 +15,8 @@ def wavelet_scattering(x, plot_coeffs=False):
 	x = x / np.max(np.abs(x))
 
 	T = x.shape[-1]
-	J = 8 # the largest filter will be concentrated in a time interval of size 2**J.
-	Q = 128 # the number of wavelets per octave in the first-order filter bank. The larger the value, the narrower these filters are in the frequency domain and the wider they are in the time domain
+	J = 6 # the largest filter will be concentrated in a time interval of size 2**J.
+	Q = 16 # the number of wavelets per octave in the first-order filter bank. The larger the value, the narrower these filters are in the frequency domain and the wider they are in the time domain
 	scattering = Scattering1D(J, T, Q)
 
 	Sx = scattering(x)
@@ -44,6 +44,16 @@ def wavelet_scattering(x, plot_coeffs=False):
 
 	return [Sx, order0, order1, order2]
 
+def wavelet_scattering_segments(segments):
+	"""
+	Input: list of numpy arrays (list of segments)
+	Output: list of lists of numpy arrays (scattering coeffs for each segment)
+	"""
+	coeffs = []
+	for segment in segments:
+		coeffs.append(wavelet_scattering(segment))
+	return coeffs
+
 def process_wavelet_coeffs(Sx):
 	"""
 	Standardize and shift scattering coefficients. Return dissimilarity of each segment.
@@ -59,3 +69,13 @@ def process_wavelet_coeffs(Sx):
 	d = np.linalg.norm(S_hat, axis=1)
 	# d1 = d.reshape((d.shape[0],1))
 	return d
+
+def process_wavelet_coeffs_segments(Sx_lst):
+	"""
+	Input: list of Sx (one for each segment)
+	Output: list of S_hat
+	"""
+	S_hat_lst = []
+	for Sx in Sx_lst:
+		S_hat_lst.append(process_wavelet_coeffs(Sx))
+	return S_hat_lst
