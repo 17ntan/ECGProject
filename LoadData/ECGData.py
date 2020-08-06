@@ -1,5 +1,6 @@
 import wfdb
 import numpy as np
+import matplotlib.pyplot as plt
 
 class ECGData:
 	"""
@@ -7,8 +8,8 @@ class ECGData:
 	"""
 	def __init__(self, data_path):
 		self.record = wfdb.rdrecord(data_path)
-		self.channel1 = record.p_signal[:, 0]
-		self.channel2 = record.p_signal[:, 1]
+		self.channel1 = self.record.p_signal[:, 0]
+		self.channel2 = self.record.p_signal[:, 1]
 		self.annotation = wfdb.rdann(data_path, 'atr', return_label_elements=['symbol'])
 		self.all_labels = np.asarray(self.annotation.symbol)
 		self.locations = self.annotation.sample
@@ -34,13 +35,29 @@ class ECGData:
 		self.segments1 = []
 		self.segments2 = []
 
-		segments1.append(self.channel1[:(self.r_peaks[0] + self.r_peaks[1])//2])
-		segments2.append(self.channel2[:(self.r_peaks[0] + self.r_peaks[1])//2])
+		self.segments1.append(self.channel1[:(self.r_peaks[0] + self.r_peaks[1])//2])
+		self.segments2.append(self.channel2[:(self.r_peaks[0] + self.r_peaks[1])//2])
 		for i in range(1, len(self.r_peaks) - 1):
-			segments1.append(self.channel1[(self.r_peaks[i - 1] + self.r_peaks[i])//2:(self.r_peaks[i] + self.r_peaks[i + 1])//2])
-			segments2.append(self.channel2[(self.r_peaks[i - 1] + self.r_peaks[i])//2:(self.r_peaks[i] + self.r_peaks[i + 1])//2])
-		segments1.append(self.channel1[(self.r_peaks[-2] + self.r_peaks[-1])//2:])
-		segments2.append(self.channel2[(self.r_peaks[-2] + self.r_peaks[-1])//2:])
+			self.segments1.append(self.channel1[(self.r_peaks[i - 1] + self.r_peaks[i])//2:(self.r_peaks[i] + self.r_peaks[i + 1])//2])
+			self.segments2.append(self.channel2[(self.r_peaks[i - 1] + self.r_peaks[i])//2:(self.r_peaks[i] + self.r_peaks[i + 1])//2])
+		self.segments1.append(self.channel1[(self.r_peaks[-2] + self.r_peaks[-1])//2:])
+		self.segments2.append(self.channel2[(self.r_peaks[-2] + self.r_peaks[-1])//2:])
+
+		if len(self.segments1) != len(self.beat_labels) or len(self.segments2) != len(self.beat_labels):
+			print("Mismatched number of segments: {} {} {}".format(len(self.segments1), len(self.segments2), len(self.beat_labels)))
+
+	def plot_segments(self, channel_num):
+		if channel_num == 1:
+			segs = self.segments1
+		elif channel_num == 2:
+			segs = self.segments2
+		else:
+			print("Please choose a valid channel number (1 or 2)")
+			return
+
+		for seg in segs:
+			plt.plot(seg)
+		plt.show()
 
 	def get_signal(self, channel_num):
 		if channel_num == 1:

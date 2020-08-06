@@ -20,6 +20,7 @@ data_path = 'LoadData/Data/100'
 # print("true label index:", true_anomaly)
 
 data = ECGData(data_path)
+# data.plot_segments(1)
 ecg_signal = data.get_signal(1)
 
 # calculate scattering wavelet coefficients
