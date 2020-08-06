@@ -22,11 +22,13 @@ data_path = 'LoadData/Data/100'
 data = ECGData(data_path)
 # data.plot_segments(1)
 ecg_signal = data.get_signal(1)
+segments = data.get_segments(1)
 
-# calculate scattering wavelet coefficients
-[Sx, order0, order1, order2] = wavelet_scattering(ecg_signal, plot_coeffs=False)
+# calculate scattering wavelet coefficients for each segment
+wavelet_coeff_lst = wavelet_scattering_segments(segments, plot_coeffs=False)
 
 # calculate dissimilarity of each beat
-dissimilarity = process_wavelet_coeffs(Sx)
+Sx_lst = [x[0] for x in wavelet_coeff_lst]
+dissimilarity = process_wavelet_coeffs_segments(Sx_lst)
 anomaly_detection(record, annotation, dissimilarity, plot=False)
 # test_thresh(record, annotation, dissimilarity, true_anomaly)
