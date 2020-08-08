@@ -11,6 +11,7 @@ def anomaly_detection(record, annotation, dissimilarity, alpha=3, plot=False):
     # anomaly determined by thresholding
     predict_anomaly = np.where(dissimilarity > threshold)
     print("predicted label index:", len(predict_anomaly[0]))
+    print(predict_anomaly)
 
     if plot:
         wfdb.plot_wfdb(record=record, annotation=annotation, title='Record 100 from MIT-BIH Arrhythmia Database')

@@ -58,7 +58,7 @@ def process_wavelet_coeffs(Sx):
 	"""
 	Standardize and shift scattering coefficients. Return dissimilarity of each segment.
 
-	Sx: scattering coefficients, list of numpy arrays
+	Sx: scattering coefficients, 1d numpy array
 	Output: S_hat: processed scattering coefficients, list of numpy arrays
 	"""
 	# remove bias introduced by the varying range of the scattering coefficients
@@ -66,7 +66,7 @@ def process_wavelet_coeffs(Sx):
 	# shift data to origin
 	S_hat = S_standard
 	# dissimilarity
-	d = np.linalg.norm(S_hat, axis=1)
+	d = np.linalg.norm(S_hat)
 	# d1 = d.reshape((d.shape[0],1))
 	return d
 
@@ -77,5 +77,7 @@ def process_wavelet_coeffs_segments(Sx_lst):
 	"""
 	d_lst = []
 	for Sx in Sx_lst:
-		d_lst.append(process_wavelet_coeffs(Sx))
+		ravel = [np.ravel(layer) for layer in Sx]
+		vector = np.concatenate(ravel)
+		d_lst.append(process_wavelet_coeffs(vector))
 	return d_lst
