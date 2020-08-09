@@ -80,6 +80,9 @@ class ECGData:
 			mask = anomalies.astype(bool)
 			plt.plot(r_peaks[mask], signal[r_peaks[mask]], "ro")
 			plt.plot(r_peaks[np.invert(mask)], signal[r_peaks[np.invert(mask)]], "go")
+		else:
+			plt.plot(r_peaks, signal[r_peaks], "bo")
+		plt.show()
 
 	def get_signal(self, channel_num):
 		if channel_num == 1:
