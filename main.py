@@ -29,7 +29,6 @@ wavelet_coeff_lst = wavelet_scattering_segments(segments)
 Sx_lst = [x[0] for x in wavelet_coeff_lst]
 dissimilarity = process_wavelet_coeffs_segments(Sx_lst)
 print(len(dissimilarity))
-# only does anomaly detection for one beat (the first one) right now!!!
 x = anomaly_detection(record, annotation, dissimilarity, plot=False)
 # np.savetxt("result.txt", x)
 # x = np.loadtxt("result.txt")
