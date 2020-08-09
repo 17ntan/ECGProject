@@ -47,6 +47,9 @@ class ECGData:
 			print("Mismatched number of segments: {} {} {}".format(len(self.segments1), len(self.segments2), len(self.beat_labels)))
 
 	def plot_segments(self, channel_num):
+		"""
+		Spaghetti plot (segments overlaid on top of each other)
+		"""
 		if channel_num == 1:
 			segs = self.segments1
 		elif channel_num == 2:
@@ -58,6 +61,25 @@ class ECGData:
 		for seg in segs:
 			plt.plot(seg)
 		plt.show()
+
+	def plot_r_peaks(self, channel_num, anomalies=None):
+		"""
+		dots on peaks (different color if detected anomalies)
+		anomalies - numpy array of 0s and 1s (0 is normal)
+		"""
+		if channel_num == 1:
+			signal = self.channel1
+		elif channel_num == 2:
+			signal = self.channel2
+		else:
+			print("Please choose a valid channel number (1 or 2)")
+			return
+
+		plt.plot(signal)
+		if anomalies:
+			mask = anomalies.astype(bool)
+			plt.plot(r_peaks[mask], signal[r_peaks[mask]], "ro")
+			plt.plot(r_peaks[np.invert(mask)], signal[r_peaks[np.invert(mask)]], "go")
 
 	def get_signal(self, channel_num):
 		if channel_num == 1:
