@@ -20,7 +20,7 @@ record = data.get_record()
 annotation = data.get_annotation()
 labels = data.get_beat_labels()
 
-# print(len(labels), len(segments))
+print(len(labels), len(segments))
 
 # calculate scattering wavelet coefficients for each segment
 wavelet_coeff_lst = wavelet_scattering_segments(segments)
@@ -28,11 +28,11 @@ wavelet_coeff_lst = wavelet_scattering_segments(segments)
 # calculate dissimilarity of each beat
 Sx_lst = [x[0] for x in wavelet_coeff_lst]
 dissimilarity = process_wavelet_coeffs_segments(Sx_lst)
-# print(dissimilarity, len(dissimilarity))
+print(len(dissimilarity))
 # only does anomaly detection for one beat (the first one) right now!!!
 x = anomaly_detection(record, annotation, dissimilarity, plot=False)
 # np.savetxt("result.txt", x)
 # x = np.loadtxt("result.txt")
 
-accuracy, sensitivity, positive_predictivity = calculate_metrics(x[1].ravel(), labels)
+accuracy, sensitivity, positive_predictivity = calculate_metrics(x, labels)
 print(accuracy, sensitivity, positive_predictivity)
