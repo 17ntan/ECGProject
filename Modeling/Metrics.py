@@ -8,8 +8,11 @@ def calculate_metrics(predicted, true_labels):
     Output: accuracy, sensitivity, and positive predictivity
     """
     predicted = np.array(predicted)
-    binary_true_labels = (true_labels == 'N').astype(float)
+    binary_true_labels = (true_labels != 'N').astype(float)
     assert predicted.shape == binary_true_labels.shape
+
+    print("predicted:", predicted)
+    print("binary_true_labels:", binary_true_labels)
 
     N_beats = predicted.shape[0]
     N_correct = np.sum(predicted == binary_true_labels)
@@ -24,13 +27,13 @@ def calculate_metrics(predicted, true_labels):
     # print(false_negative)
 
     if true_positive + false_negative != 0:
-        sensitivity = true_positive / (true_positive + false_negative)
+        sensitivity = 100. * true_positive / (true_positive + false_negative)
     else:
         sensitivity = None
         print("WARNING: true_positive + false_negative == 0")
 
     if true_positive + false_positive != 0:
-        positive_predictivity = true_positive / (true_positive + false_positive)
+        positive_predictivity = 100. * true_positive / (true_positive + false_positive)
     else:
         positive_predictivity = None
         print("WARNING: true_positive + false_positive == 0")

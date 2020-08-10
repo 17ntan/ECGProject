@@ -9,11 +9,13 @@ def anomaly_detection(record, annotation, dissimilarity, alpha=0.185, plot=False
     print("threshold:", threshold)
 
     # anomaly determined by thresholding
-    predict_label = np.zeros((len(dissimilarity),))
+    predict_label = np.zeros(len(dissimilarity))
     print(len(predict_label))
     predict_anomaly_index = np.where(dissimilarity > threshold)
+    if len(predict_anomaly_index) > .5 * len(dissimilarity):
+        predict_anomaly_index = np.where(dissimilarity < threshold)
     predict_label[predict_anomaly_index] = 1
-    print("predicted anomaly:", len(predict_anomaly_index[0]))
+    print("predicted anomalies:", len(predict_anomaly_index))
     return predict_label
 
 def test_thresh(record, annotation, dissimilarity, true_anomaly):
