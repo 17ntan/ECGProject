@@ -8,7 +8,7 @@ def calculate_metrics(predicted, true_labels):
     Output: accuracy, sensitivity, and positive predictivity
     """
     predicted = np.array(predicted)
-    binary_true_labels = (true_labels == 'N').astype(float)
+    binary_true_labels = (true_labels != 'N').astype(float)
     assert predicted.shape == binary_true_labels.shape
 
     N_beats = predicted.shape[0]

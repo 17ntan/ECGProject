@@ -2,7 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wfdb
 
-def anomaly_detection(record, annotation, dissimilarity, alpha=0.185, plot=False):
+def anomaly_detection(dissimilarity, alpha=0.185):
+    """
+    Input: dissimilarity - list of dissimilarities (one for each segment)
+           alpha - float between 0 to 3
+    Output: predicted label - numpy array of 0s and 1s (0 is normal)
+    """
     mean, std = np.mean(dissimilarity), np.std(dissimilarity)
     threshold = mean + alpha * std
     print("dissimilarity: min: {}, max: {}, mean: {}, std: {}".format(min(dissimilarity), max(dissimilarity), mean, std))
