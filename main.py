@@ -26,10 +26,9 @@ labels = data.get_beat_labels()
 wavelet_coeff_lst = wavelet_scattering_segments(segments)
 
 # calculate dissimilarity of each beat
-Sx_lst = [x[0] for x in wavelet_coeff_lst]
 dissimilarity = process_wavelet_coeffs_segments(wavelet_coeff_lst)
 print(len(dissimilarity))
-x = anomaly_detection(record, annotation, dissimilarity, plot=False)
+x = anomaly_detection(dissimilarity)
 # np.savetxt("result.txt", x)
 # x = np.loadtxt("result.txt")
 
