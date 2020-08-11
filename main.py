@@ -32,5 +32,6 @@ x = anomaly_detection(dissimilarity)
 # np.savetxt("result.txt", x)
 # x = np.loadtxt("result.txt")
 
+# data.plot_r_peaks(1, anomalies=x)
 accuracy, sensitivity, positive_predictivity = calculate_metrics(x, labels)
 print(accuracy, sensitivity, positive_predictivity)

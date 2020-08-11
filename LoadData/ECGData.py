@@ -22,6 +22,7 @@ class ECGData:
 		mask = np.isin(self.all_labels, possible_beat_labels)
 		self.beat_labels = self.all_labels[mask]
 		self.r_peaks = self.locations[mask]
+		return self.beat_labels, self.r_peaks
 
 	def find_segments(self):
 		"""
@@ -34,6 +35,7 @@ class ECGData:
 		"""
 		self.segments1 = []
 		self.segments2 = []
+		_, self.r_peaks = self.find_peaks()
 
 		self.segments1.append(self.channel1[:(self.r_peaks[0] + self.r_peaks[1])//2])
 		self.segments2.append(self.channel2[:(self.r_peaks[0] + self.r_peaks[1])//2])
@@ -67,6 +69,7 @@ class ECGData:
 		dots on peaks (different color if detected anomalies)
 		anomalies - numpy array of 0s and 1s (0 is normal)
 		"""
+		_, r_peaks = self.find_peaks()
 		if channel_num == 1:
 			signal = self.channel1
 		elif channel_num == 2:
@@ -76,7 +79,7 @@ class ECGData:
 			return
 
 		plt.plot(signal)
-		if anomalies:
+		if anomalies.any():
 			mask = anomalies.astype(bool)
 			plt.plot(r_peaks[mask], signal[r_peaks[mask]], "ro")
 			plt.plot(r_peaks[np.invert(mask)], signal[r_peaks[np.invert(mask)]], "go")
