@@ -16,9 +16,9 @@ def anomaly_detection(dissimilarity, alpha=0.185):
     # anomaly determined by thresholding
     predict_label = np.zeros(len(dissimilarity))
     print(len(predict_label))
-    predict_anomaly_index = np.where(dissimilarity > threshold)
+    predict_anomaly_index = np.where(dissimilarity > threshold)[0]
     if len(predict_anomaly_index) > .5 * len(dissimilarity):
-        predict_anomaly_index = np.where(dissimilarity < threshold)
+        predict_anomaly_index = np.where(dissimilarity < threshold)[0]
     predict_label[predict_anomaly_index] = 1
     print("predicted anomalies:", len(predict_anomaly_index))
     return predict_label

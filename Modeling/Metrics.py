@@ -11,8 +11,8 @@ def calculate_metrics(predicted, true_labels):
     binary_true_labels = (true_labels != 'N').astype(float)
     assert predicted.shape == binary_true_labels.shape
 
-    print("predicted:", predicted)
-    print("binary_true_labels:", binary_true_labels)
+    print("predicted:", np.sum(predicted), predicted)
+    print("binary_true_labels:", np.sum(binary_true_labels), binary_true_labels)
 
     N_beats = predicted.shape[0]
     N_correct = np.sum(predicted == binary_true_labels)
